@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks
+using System.Threading.Tasks;
 using CRUD_com_SQLite.Model;
 using SQLite;
 
@@ -20,7 +20,7 @@ namespace CRUD_com_SQLite.Helper
         {
             return _conn.InsertAsync(p);
         }
-        public Task<List<void>> update(produto p)
+        public Task<List<produto>> update(produto p)
         {
             string sql = "UPDATE produto SET descricao=?, quantidade=?, preco=? WHERE id=? ";
             return _conn.QueryAsync<produto>(sql, p.descricao, p.quantidade, p.preco, p.id);
@@ -32,12 +32,12 @@ namespace CRUD_com_SQLite.Helper
         }
         public Task<int> delete(int id)
         {
-            _conn.Table<produto>().DeleteAsync(i => i.id == id);
+            return _conn.Table<produto>().DeleteAsync(i => i.id == id);
         }
         public Task<List<produto>> Search(string q)
         {
             string sql = "SELECT * FROM produto WHERE descricao LIKE '%" + q + "%' ";
-            _conn.QueryAsync<produto>(sql);
+            return _conn.QueryAsync<produto>(sql);
         }
     }
 }
